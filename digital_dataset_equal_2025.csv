@@ -1,0 +1,6 @@
+﻿bank_code,bank_name,year,D1_score_0_3,D1_score_100,D1_status,D2_score_0_3,D2_score_100,D2_status,D3_score_0_3,D3_score_100,D3_status,complete_3_indicators,total_score_0_9,weighting_rule,digital_maturity_100,index_status,included_in_BCDS_15
+VCB,Vietcombank,2025,3,100.0,review,2,66.67,review,2,66.67,review,True,7,equal_1_3_each,77.78,review,False
+BID,BIDV,2025,3,100.0,review,3,100.0,review,2,66.67,review,True,8,equal_1_3_each,88.89,review,False
+CTG,VietinBank,2025,3,100.0,review,2,66.67,review,3,100.0,review,True,8,equal_1_3_each,88.89,review,False
+TCB,Techcombank,2025,2,66.67,review,2,66.67,review,3,100.0,review,True,7,equal_1_3_each,77.78,review,False
+MBB,MB,2025,2,66.67,review,3,100.0,review,2,66.67,review,True,7,equal_1_3_each,77.78,review,False

@@ -1,0 +1,8 @@
+{
+  "year": 2025,
+  "criteria_count": 15,
+  "digital_weights": "equal_25_divided_by_3",
+  "skipped_indicators": [],
+  "method": "Min-Max for financial; score/3 for D1-D3; weights in points",
+  "disclaimer": "Research comparison only; digital evidence marked review is not independently verified."
+}
