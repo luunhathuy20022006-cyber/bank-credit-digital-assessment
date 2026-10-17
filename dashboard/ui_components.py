@@ -513,6 +513,71 @@ def data_table(frame, labels=None, formats=None, links=(), height=None, key=None
     st.dataframe(display, **options)
 
 
+def source_detail_table(frame, labels=None, formats=None, *, variant="financial", height=400, key=None):
+    """Render filtered source records on an explicitly light, scrollable surface."""
+    variant = variant if variant in ("financial", "digital", "reference") else "financial"
+    labels, formats = labels or {}, formats or {}
+    title = "Chi tiết dữ liệu tài chính" if variant == "financial" else "Chi tiết bằng chứng và tài liệu"
+    if variant == "reference":
+        title = "Bảng tham chiếu Excel"
+    if frame.empty:
+        if variant == "reference":
+            html('<div class="source-detail-empty" role="status">Không có dữ liệu trong bảng tham chiếu này.</div>')
+        else:
+            st.info("Không có nguồn phù hợp với bộ lọc hiện tại.")
+        return
+
+    numeric_columns = {column for column in frame if pd.api.types.is_numeric_dtype(frame[column])}
+    rows = []
+    for record in frame.to_dict("records"):
+        cells = []
+        for column, value in record.items():
+            classes = ["source-detail-cell"]
+            if column in numeric_columns:
+                classes.append("source-detail-numeric")
+            if column == "source_url":
+                url = valid_url(value)
+                content = (f'<a class="source-detail-link" href="{safe(url)}" target="_blank" '
+                           'rel="noopener noreferrer">Mở nguồn ↗</a>') if url else "N/A"
+            elif column == "status":
+                content = status_badge(value, show_review=True)
+            elif column == "indicator_code":
+                tone = {"D1": "violet", "D2": "aqua", "D3": "blue"}.get(text(value), "neutral")
+                content = f'<span class="source-detail-chip source-detail-chip--{tone}">{safe(value)}</span>'
+            elif column == "score_0_3":
+                score = pd.to_numeric(value, errors="coerce")
+                tone = {3: "good", 2: "mid", 1: "low", 0: "zero"}.get(score, "missing")
+                label = number(score, 0) if pd.notna(score) and score in (0, 1, 2, 3) else value
+                content = f'<span class="source-detail-score source-detail-score--{tone}">{safe(label)}</span>'
+            elif column in ("ticker", "bank_code", "unit_clean"):
+                tone = "aqua" if column == "unit_clean" else "blue"
+                content = f'<span class="source-detail-chip source-detail-chip--{tone}">{safe(value)}</span>'
+            else:
+                label = value
+                if column in formats and pd.notna(value):
+                    try:
+                        label = formats[column] % value
+                    except (TypeError, ValueError, OverflowError):
+                        pass
+                if column not in numeric_columns and column not in ("year", "as_of"):
+                    classes.append("source-detail-wrap")
+                content = safe(label)
+            cells.append(f'<td class="{" ".join(classes)}">{content}</td>')
+        rows.append('<tr>' + "".join(cells) + '</tr>')
+    headers = "".join(
+        f'<th scope="col" class="{"source-detail-numeric" if column in numeric_columns else ""}">'
+        f'{safe(labels.get(column, column))}</th>' for column in frame.columns
+    )
+    html(f'<div class="source-detail-card source-detail-card--{variant}">'
+         f'<div class="source-detail-scroll" style="max-height:{int(height)}px" tabindex="0" '
+         f'role="region" aria-label="{safe(title)} — cuộn để xem đầy đủ">'
+         f'<table class="source-detail-table" aria-label="{safe(title)}"><thead><tr>{headers}</tr></thead>'
+         f'<tbody>{"".join(rows)}</tbody></table></div></div>')
+    st.download_button("Tải CSV", frame.to_csv(index=False).encode("utf-8-sig"),
+                       file_name=f"{key or variant}_sources.csv", mime="text/csv",
+                       key=f"{key or variant}_download", on_click="ignore")
+
+
 def source_table(frame, labels, height):
     """Readable, wrapping provenance; full native data stays in the adjacent expander."""
     if frame.empty:

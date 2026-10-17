@@ -332,7 +332,9 @@ def sources():
             provenance = [c for c in ("ticker", "year", "source", "status", "source_url") if c in filtered]
             ui.source_table(filtered[provenance].drop_duplicates(), LABELS, height=360)
             with st.expander("Chi tiết dữ liệu tài chính"):
-                ui.data_table(filtered[[c for c in preferred if c in filtered]], LABELS, {"value_clean": "%.2f", "year": "%d"}, links=("source_url",), height=400, key="financial_raw", show_review=True)
+                ui.source_detail_table(filtered[[c for c in preferred if c in filtered]], LABELS,
+                                       {"value_clean": "%.2f", "year": "%d"},
+                                       variant="financial", key="financial_raw")
             st.caption("Đơn vị ty_dong trong nguồn tương ứng tỷ đồng. URL trống được giữ là thiếu dữ liệu.")
             ui.source_summary(filtered, "source", "Tổng hợp theo loại nguồn")
     if evidence is not None:
@@ -345,7 +347,7 @@ def sources():
             columns = [c for c in preferred if c in evidence]
             ui.source_table(shown[columns], {**LABELS, "score_0_3": "Điểm", "indicator_code": "Chỉ tiêu", "source_url": "Nguồn"}, height=444)
             with st.expander("Chi tiết bằng chứng và tài liệu"):
-                ui.data_table(shown, LABELS, links=("source_url",), height=400, key="evidence_raw", show_review=True)
+                ui.source_detail_table(shown, LABELS, variant="digital", key="evidence_raw")
             st.caption("Bản ghi đang rà soát được giữ nguyên trạng thái từ dữ liệu nguồn.")
             if "source_type" in shown:
                 ui.source_summary(shown, "source_type", "Thống kê loại nguồn bằng chứng")
@@ -362,10 +364,21 @@ def sources():
             if metadata.get("skipped_indicators"):
                 st.write("Tiêu chí được upstream bỏ qua: " + ", ".join(metadata["skipped_indicators"]))
     if st.checkbox("Mở bảng tham chiếu Excel", key="show_workbook"):
-        sheet = st.selectbox("Bảng tham chiếu", ["Financial_Sources", "Metric_Definitions", "Missing_Check", "Consistency_Check", "Crawl_Status"], key="workbook_sheet")
-        workbook = load(data.load_workbook_sheet, sheet=sheet)
-        if workbook is not None:
-            ui.data_table(workbook, LABELS, links=("source_url",), key="workbook_table", show_review=True)
+        candidate_sheets = ["Financial_Sources", "Metric_Definitions", "Missing_Check", "Consistency_Check", "Crawl_Status"]
+        workbook_tables = {name: load(data.load_workbook_sheet, sheet=name) for name in candidate_sheets}
+        available_sheets = [
+            name for name, frame in workbook_tables.items()
+            if frame is not None and not frame.empty
+            and frame.replace(r"^\s*$", pd.NA, regex=True).notna().any(axis=None)
+        ]
+        if available_sheets:
+            if st.session_state.get("workbook_sheet") not in available_sheets:
+                st.session_state["workbook_sheet"] = available_sheets[0]
+            with st.container(key="workbook_reference"):
+                sheet = st.selectbox("Bảng tham chiếu", available_sheets, key="workbook_sheet")
+                ui.source_detail_table(workbook_tables[sheet], LABELS, variant="reference", key="workbook_table")
+        else:
+            st.session_state.pop("workbook_sheet", None)
 
 
 with st.sidebar:
