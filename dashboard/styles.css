@@ -358,7 +358,7 @@ button { transition:background .2s var(--spring),transform .2s var(--spring); }b
   color:#18376f;
   background:#fff;
 }
-.st-key-sources_page .source-detail-card {
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-card {
   min-width:0;
   max-width:100%;
   overflow:hidden;
@@ -368,16 +368,16 @@ button { transition:background .2s var(--spring),transform .2s var(--spring); }b
   background:#fff;
   box-shadow:0 3px 10px #2a629c0a;
 }
-.st-key-sources_page .source-detail-card--digital { border-color:#e0d9f5; }
-.st-key-sources_page .source-detail-scroll {
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-card--digital { border-color:#e0d9f5; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-scroll {
   width:100%;
   overflow:auto;
   background:#fff;
   scrollbar-color:#b9cfe5 #f0f6fc;
   scrollbar-width:thin;
 }
-.st-key-sources_page .source-detail-scroll:focus-visible { outline:2px solid #458bd4; outline-offset:-2px; }
-.st-key-sources_page .source-detail-table {
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-scroll:focus-visible { outline:2px solid #458bd4; outline-offset:-2px; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-table {
   width:100%;
   margin:0;
   border-collapse:separate;
@@ -387,7 +387,7 @@ button { transition:background .2s var(--spring),transform .2s var(--spring); }b
   font-size:11px;
   line-height:1.5;
 }
-.st-key-sources_page .source-detail-table :is(th,td) {
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-table :is(th,td) {
   padding:8px 10px;
   border:0;
   border-bottom:1px solid #e4eef8;
@@ -395,7 +395,7 @@ button { transition:background .2s var(--spring),transform .2s var(--spring); }b
   white-space:nowrap;
   vertical-align:top;
 }
-.st-key-sources_page .source-detail-table thead th {
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-table thead th {
   position:sticky;
   top:0;
   z-index:1;
@@ -404,20 +404,20 @@ button { transition:background .2s var(--spring),transform .2s var(--spring); }b
   box-shadow:0 1px 0 #cfe5f7;
   font-weight:750;
 }
-.st-key-sources_page .source-detail-table td { color:#294673; background:transparent; }
-.st-key-sources_page .source-detail-card--digital thead th { background:#eeeaff; box-shadow:0 1px 0 #e0d9f5; }
-.st-key-sources_page .source-detail-table tbody tr { background:#fff; }
-.st-key-sources_page .source-detail-table tbody tr:nth-child(even) { background:#f5faff; }
-.st-key-sources_page .source-detail-card--digital tbody tr:nth-child(even) { background:#faf8ff; }
-.st-key-sources_page .source-detail-table tbody tr:hover { background:#eaf8fb; }
-.st-key-sources_page .source-detail-table .source-detail-numeric { text-align:right; font-variant-numeric:tabular-nums; }
-.st-key-sources_page .source-detail-table .source-detail-wrap {
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-table td { color:#294673; background:transparent; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-card--digital thead th { background:#eeeaff; box-shadow:0 1px 0 #e0d9f5; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-table tbody tr { background:#fff; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-table tbody tr:nth-child(even) { background:#f5faff; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-card--digital tbody tr:nth-child(even) { background:#faf8ff; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-table tbody tr:hover { background:#eaf8fb; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-table .source-detail-numeric { text-align:right; font-variant-numeric:tabular-nums; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-table .source-detail-wrap {
   min-width:150px;
   max-width:320px;
   white-space:normal;
   overflow-wrap:anywhere;
 }
-.st-key-sources_page .source-detail-chip,.st-key-sources_page .source-detail-score {
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-chip,:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-score {
   display:inline-block;
   padding:3px 7px;
   border-radius:6px;
@@ -425,26 +425,100 @@ button { transition:background .2s var(--spring),transform .2s var(--spring); }b
   font-weight:700;
   white-space:nowrap;
 }
-.st-key-sources_page .source-detail-chip--blue { color:#2468c7; background:#dcecff; }
-.st-key-sources_page .source-detail-chip--violet { color:#7042bd; background:#eee1ff; }
-.st-key-sources_page .source-detail-chip--aqua { color:#087f82; background:#d7f5ef; }
-.st-key-sources_page .source-detail-chip--neutral { color:#496183; background:#edf2f8; }
-.st-key-sources_page .source-detail-score { min-width:28px; text-align:center; }
-.st-key-sources_page .source-detail-score--good { color:#196149; background:#d4f3e3; }
-.st-key-sources_page .source-detail-score--mid { color:#8c6200; background:#fff0be; }
-.st-key-sources_page .source-detail-score--low { color:#a64e2c; background:#ffe2d0; }
-.st-key-sources_page .source-detail-score--zero { color:#9f4556; background:#f9e3e8; }
-.st-key-sources_page .source-detail-score--missing { color:#496183; background:#edf2f8; }
-.st-key-sources_page .source-detail-table .status { white-space:nowrap; }
-.st-key-sources_page .source-detail-link { color:#1268cd !important; font-weight:600; text-decoration:none; }
-.st-key-sources_page .source-detail-link:hover { text-decoration:underline; }
-.st-key-sources_page .source-detail-link:focus-visible { outline:2px solid #458bd4; outline-offset:2px; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-chip--blue { color:#2468c7; background:#dcecff; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-chip--violet { color:#7042bd; background:#eee1ff; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-chip--aqua { color:#087f82; background:#d7f5ef; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-chip--neutral { color:#496183; background:#edf2f8; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-score { min-width:28px; text-align:center; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-score--good { color:#196149; background:#d4f3e3; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-score--mid { color:#8c6200; background:#fff0be; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-score--low { color:#a64e2c; background:#ffe2d0; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-score--zero { color:#9f4556; background:#f9e3e8; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-score--missing { color:#496183; background:#edf2f8; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-table .status { white-space:nowrap; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-link { color:#1268cd !important; font-weight:600; text-decoration:none; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-link:hover { text-decoration:underline; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-link:focus-visible { outline:2px solid #458bd4; outline-offset:2px; }
 .st-key-sources_page :is(.st-key-panel_financial_sources,.st-key-panel_digital_sources) [data-testid="stExpander"] [data-testid="stDownloadButton"] button {
   color:var(--detail-accent);
   background:#f3f8ff;
   border:1px solid var(--detail-border);
   border-radius:8px;
   font-size:11px;
+}
+
+/* Criterion explanation and merged context share the light table presentation. */
+.st-key-criterion_detail_page .st-key-criterion_context { min-width:0; max-width:100%; }
+.st-key-criterion_detail_page .st-key-criterion_context [data-testid="stExpander"] {
+  min-width:0;
+  color-scheme:light !important;
+  color:#18376f;
+  background:#fff;
+  border:1px solid #d7e5f5;
+  border-radius:12px;
+  box-shadow:0 4px 14px #2a629c0c;
+}
+.st-key-criterion_detail_page .st-key-criterion_context details {
+  min-width:0;
+  overflow:hidden;
+  color:#18376f;
+  background:#fff;
+  border:0;
+  border-radius:12px;
+}
+.st-key-criterion_detail_page .st-key-criterion_context summary {
+  padding:11px 12px;
+  color:#18376f !important;
+  background:linear-gradient(115deg,#e7f3fe,#f1edfc) !important;
+}
+.st-key-criterion_detail_page .st-key-criterion_context summary p {
+  color:#18376f !important;
+  font-size:13px;
+  font-weight:700;
+}
+.st-key-criterion_detail_page .st-key-criterion_context summary :is(svg,[data-testid="stIconMaterial"]) { color:#6260ba; }
+.st-key-criterion_detail_page .st-key-criterion_context summary:hover { filter:brightness(.98); }
+.st-key-criterion_detail_page .st-key-criterion_context summary:focus-visible {
+  outline:2px solid #458bd4;
+  outline-offset:-3px;
+}
+.st-key-criterion_detail_page .st-key-criterion_context [data-testid="stExpanderDetails"] {
+  min-width:0;
+  padding:14px;
+  color:#294673;
+  background:#fafdff;
+}
+.st-key-criterion_detail_page .st-key-criterion_context [data-testid="stMarkdownContainer"] > p {
+  color:#294673;
+  font-size:13px;
+  line-height:1.65;
+}
+.st-key-criterion_detail_page .source-detail-card--criterion-context .source-detail-table {
+  min-width:1100px;
+  font-size:12px;
+}
+.st-key-criterion_detail_page .source-detail-card--criterion-context thead th {
+  min-width:90px;
+  max-width:260px;
+  white-space:normal;
+  overflow-wrap:anywhere;
+  background:#eaeffd;
+}
+.st-key-criterion_detail_page .st-key-criterion_context [data-testid="stDownloadButton"] button {
+  color:#1268cd;
+  background:#f3f8ff;
+  border:1px solid #d7e5f5;
+  border-radius:8px;
+  font-size:11px;
+}
+.st-key-criterion_detail_page .st-key-criterion_context .source-detail-empty {
+  padding:14px;
+  border:1px solid #d7e5f5;
+  border-radius:11px;
+  color:#496183;
+  background:#f5faff;
+  color-scheme:light;
+  font-size:12px;
 }
 
 /* Workbook reference reuses the light table without changing either detail variant. */
@@ -457,11 +531,11 @@ button { transition:background .2s var(--spring),transform .2s var(--spring); }b
   border-color:#458bd4;
   box-shadow:0 0 0 3px #458bd41c;
 }
-.st-key-sources_page .source-detail-card--reference thead th {
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-card--reference thead th {
   background:linear-gradient(115deg,#e7f3fe,#e9f8fa);
 }
-.st-key-sources_page .source-detail-card--reference .source-detail-table { font-size:12px; }
-.st-key-sources_page .source-detail-card--reference .source-detail-wrap { max-width:420px; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-card--reference .source-detail-table { font-size:12px; }
+:is(.st-key-sources_page,.st-key-criterion_detail_page) .source-detail-card--reference .source-detail-wrap { max-width:420px; }
 .st-key-sources_page .st-key-workbook_reference [data-testid="stDownloadButton"] button {
   color:#1268cd;
   background:#f3f8ff;

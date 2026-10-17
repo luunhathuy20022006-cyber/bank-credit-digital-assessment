@@ -248,7 +248,7 @@ def criterion_detail():
                           f"So sánh {('giá trị gốc' if mode == 'raw' else 'điểm chuẩn hóa')} của tiêu chí {code} (đơn vị: {units.get(code, '—')})",
                           "bars")
         plot(charts.criterion_comparison(criteria, code, mode=mode), "criterion_comparison")
-    with st.expander("Giải thích tiêu chí và ngữ cảnh dữ liệu"):
+    with st.container(key="criterion_context"), st.expander("Giải thích tiêu chí và ngữ cảnh dữ liệu"):
         if code in DIGITAL_CODES:
             st.write("Đánh giá định tính trên thang 0–3, dựa trên bằng chứng. Điểm do upstream cung cấp; Dashboard chỉ hiển thị kết quả.")
         else:
@@ -263,7 +263,8 @@ def criterion_detail():
             if merged is not None:
                 # Legacy inclusion metadata is not used to select criteria or scores.
                 contextual = data.select_bank(merged, ticker).drop(columns=["included_in_BCDS_15"], errors="ignore")
-                ui.data_table(contextual, LABELS, key="merged_context")
+                ui.source_detail_table(contextual, LABELS, variant="criterion-context",
+                                       key="merged_context", show_review=False)
 
 
 def digital():

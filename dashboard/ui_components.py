@@ -513,16 +513,26 @@ def data_table(frame, labels=None, formats=None, links=(), height=None, key=None
     st.dataframe(display, **options)
 
 
-def source_detail_table(frame, labels=None, formats=None, *, variant="financial", height=400, key=None):
+def source_detail_table(frame, labels=None, formats=None, *, variant="financial", height=400, key=None, show_review=True):
     """Render filtered source records on an explicitly light, scrollable surface."""
-    variant = variant if variant in ("financial", "digital", "reference") else "financial"
+    variant = variant if variant in ("financial", "digital", "reference", "criterion-context") else "financial"
     labels, formats = labels or {}, formats or {}
+    frame = frame.copy()
+    if not show_review:
+        # Match data_table's presentation-only review-column policy.
+        frame = frame.drop(columns=[column for column in frame
+                                    if (column == "status" or column.endswith("_status"))
+                                    and frame[column].isin(REVIEW_STATUSES).any()])
     title = "Chi tiết dữ liệu tài chính" if variant == "financial" else "Chi tiết bằng chứng và tài liệu"
     if variant == "reference":
         title = "Bảng tham chiếu Excel"
+    elif variant == "criterion-context":
+        title = "Dữ liệu hợp nhất của ngân hàng"
     if frame.empty:
-        if variant == "reference":
-            html('<div class="source-detail-empty" role="status">Không có dữ liệu trong bảng tham chiếu này.</div>')
+        if variant in ("reference", "criterion-context"):
+            message = ("Không có dòng dữ liệu hợp nhất cho ngân hàng này." if variant == "criterion-context"
+                       else "Không có dữ liệu trong bảng tham chiếu này.")
+            html(f'<div class="source-detail-empty" role="status">{safe(message)}</div>')
         else:
             st.info("Không có nguồn phù hợp với bộ lọc hiện tại.")
         return
@@ -540,7 +550,7 @@ def source_detail_table(frame, labels=None, formats=None, *, variant="financial"
                 content = (f'<a class="source-detail-link" href="{safe(url)}" target="_blank" '
                            'rel="noopener noreferrer">Mở nguồn ↗</a>') if url else "N/A"
             elif column == "status":
-                content = status_badge(value, show_review=True)
+                content = status_badge(value, show_review=show_review)
             elif column == "indicator_code":
                 tone = {"D1": "violet", "D2": "aqua", "D3": "blue"}.get(text(value), "neutral")
                 content = f'<span class="source-detail-chip source-detail-chip--{tone}">{safe(value)}</span>'
